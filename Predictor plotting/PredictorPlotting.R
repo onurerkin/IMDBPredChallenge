@@ -54,7 +54,8 @@ attach(data_final)
 plot(user_reviews_number,imdb_score) #same
 
 
-# budget,content_rating,
+# budget,
+#content_rating,
 # number_news_articles,
 # irector_facebook_likes,
 # color,
@@ -62,13 +63,13 @@ plot(user_reviews_number,imdb_score) #same
 # movie_facebook_likes
 # movie_budget
 # sum_total_likes  = cast total facebook likes same
-#ratio_movie_cast_likes maybe
+# ratio_movie_cast_likes maybe
 
 
 library(ggplot2)
-ggplot2.scatterplot(data=data_final, xName='budget',yName='imdb_score',
-                    groupName='action', size=3,backgroundColor="white", 
-                    setColorByGroupName=TRUE,xlim=c(0,100000000),addRegLine = TRUE)
+# ggplot2.scatterplot(data=data_final, xName='budget',yName='imdb_score',
+#                     groupName='genres', size=3,backgroundColor="white", 
+#                     setColorByGroupName=TRUE,xlim=c(0,100000000),addRegLine = TRUE)
 
 
 install.packages("devtools")
