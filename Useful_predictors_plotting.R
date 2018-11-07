@@ -1,20 +1,39 @@
 useful_data = subset(data_final,select = -c(X,X.1,X.2,X.3,X.4,X.5,X.6,X.7,X.8,X.9,X.10,X.11))
-useful_data = subset(useful_data,select = -c(release_day,release_month,release_year,language,country,plot_keywords,plot_summary,))
+useful_data = subset(useful_data,select = -c(release_day,release_month,release_year,language,country))
 
 attach(useful_data)
 
 useful_data$actor_2_star_meter=as.numeric(useful_data$actor_2_star_meter)
 useful_data$actor_3_star_meter=as.numeric(useful_data$actor_3_star_meter)
-
-useful_data$star_meter_inverse_sum=(actor_1_star_meter^-1+actor_2_star_meter^-1+actor_3_star_meter^-1)
-
-
-useful_data$log_inverse_star_meter_1=log(actor_1_star_meter^-2)
-useful_data$log_inverse_star_meter_2=log(actor_2_star_meter^-2)
-useful_data$log_inverse_star_meter_3=log(actor_3_star_meter^-2)
-useful_data$star_meter_sum_log = log_inverse_star_meter_1+log_inverse_star_meter_2+log_inverse_star_meter_3
-
 attach(useful_data)
-plot(log(star_meter_inverse_sum),imdb_score)
-plot(star_meter_sum_log,imdb_score)
 
+useful_data$actor_3_facebook_likes=as.numeric(useful_data$actor_3_facebook_likes)
+attach(useful_data)
+
+useful_data$movie_star_facebook_like = apply(subset(useful_data,select = c(actor_1_facebook_likes,actor_2_facebook_likes,actor_3_facebook_likes)),1,max)
+plot(movie_star_facebook_like,imdb_score,xlim = c(0,50000))
+plot(cast_total_facebook_likes,imdb_score,xlim = c(0,100000))
+plot(movie_star_facebook_like,actor_1_facebook_likes,xli)
+plot(movie_star_facebook_like,imdb_score,xlim = c(0,100000))
+
+plot(budget,movie_budget)
+plot(critic_reviews_number,imdb_score)
+plot(number_news_articles,imdb_score,xlim = c(0,5000))
+plot(log(user_votes_number^-1),imdb_score)
+plot(number_of_faces_in_movie_poster,imdb_score,xlim = c(0,15))
+plot(log(user_reviews_number^-1),imdb_score)
+plot(movie_budget,imdb_score,xlim=c(0,500000000))
+plot(budget,imdb_score)
+plot(movie_budget,budget)
+plot(movie_facebook_likes,imdb_score,xlim = c(0,400000))
+plot(sum_total_likes,imdb_score,xlim = c(0,100000))
+plot(log(ratio_movie_cast_likes),imdb_score)
+plot(movie_meter_IMDB_pro^-1,imdb_score,xlim = c(0,0.005))
+plot(number_of_votes,imdb_score)
+plot(movie_star_facebook_like,actor_1_facebook_likes,xlim = c(0,1000),ylim = c(0,1000))
+plot(log(critic_reviews_number),imdb_score)
+
+plot(critic_reviews_number,user_reviews_number)
+plot(duration_mins,imdb_score)
+plot(director_facebook_likes,imdb_score)
+plot(color,imdb_score)

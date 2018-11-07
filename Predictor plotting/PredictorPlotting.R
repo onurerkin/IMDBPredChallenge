@@ -1,58 +1,34 @@
 ## PLOTTING PREDICTORS #####
-
-data_final <- read.csv("~/Downloads/data_final.csv")
 attach(data_final)
-par(mfrow=c(1,1))
-plot(duration_mins,imdb_score) # maybe
-plot(release_year,imdb_score) # bs
-plot(budget,imdb_score) # USE IT funnel test
-plot(content_rating,imdb_score)  # useful, categorical, outliers
-plot(aspect_ratio,imdb_score) #useless
-plot(director,imdb_score) #leave it
-plot(number_news_articles,imdb_score) #important funnel
-plot(director_facebook_likes,imdb_score) #use it as categrical
-plot(sum_total_likes,imdb_score,xlim = c(0,100000)) # we sum actors' facebook likes
-plot(actor_1_star_meter,imdb_score,xlim = c(0,100000)) # we sum actors' star likes
-plot(movie_meter_IMDB_pro,imdb_score)
-
-plot(user_vote_number,imdb_score) #type is factor
-
-plot(critic_reviews_number,imdb_score)#type is factor
-plot(user_reviews_number,imdb_score) #same
-plot(color,imdb_score) #use it
-plot(genres,imdb_score)
-plot(cast_total_facebook_likes,imdb_score,xlim = c(0,50000)) #useful
-plot(number_of_faces_in_movie_poster,imdb_score,xlim=c(0,20)) #maybeee useful or not
-
-plot(plot_keywords,imdb_score) #useless
-plot(movie_facebook_likes,imdb_score,xlim = c(1000,15000)) #niceee
+detach(data_final)
 #genre plots should be done laterrr
 
-plot(sum_total_likes,imdb_score,xlim=c(0,100000)) #useful
-plot(ratio_movie_cast_likes,imdb_score,xlim=c(0,300)) #useful
-
-plot(movie_meter_IMDB_pro,imdb_score,xlim = c(0,50000)) #maybe
-plot(number_of_votes,imdb_score)  #awesomeeeee 
-plot(plot_summary,imdb_score) #disgusting
-
-plot(movie_facebook_likes,imdb_score, xlim = c(0,1000)) #use it
-plot(movie_budget,imdb_score,xlim = c(0,100000000))
-
-
+par(mfrow = c(1,1))
 
 ###### converting factors into integers #####
 data_final$user_votes_number=as.numeric(data_final$user_votes_number)
-attach(data_final)
-plot(user_vote_number,imdb_score) #type is factor
-
 data_final$critic_reviews_number=as.numeric(data_final$critic_reviews_number)
-attach(data_final)
-plot(critic_reviews_number,imdb_score)#type is factor
-
 data_final$user_reviews_number = as.numeric(data_final$user_reviews_number)
-attach(data_final)
-plot(user_reviews_number,imdb_score) #same
+data_final$actor_3_facebook_likes=as.numeric(data_final$actor_3_facebook_likes)
+data_final$actor_2_star_meter=as.numeric(data_final$actor_2_star_meter)
+data_final$actor_3_star_meter=as.numeric(data_final$actor_3_star_meter)
+class(data_final)
+myGlobals = objects(data_final)
+for (i in myGlobals) {
+  print(i)
+  print(typeof(get(i)))
+  
+}
 
+plot(number_news_articles,imdb_score,xlim = c(0,35000))
+
+lreg1=lm(imdb_score~actor_1_facebook_likes+budget+number_of_votes+number_news_articles+critic_reviews_number+user_reviews_number+user_votes_number)
+summary(lreg1)
+
+residualPlots(lreg1)
+ployreg=glm(imdb_score~poly(number_news_articles,2))
+plot(number_news_articles,imdb_score)
+lines(sort(number_news_articles),predict(ployreg)[order(number_news_articles)])
 
 # budget,
 #content_rating,
@@ -66,12 +42,14 @@ plot(user_reviews_number,imdb_score) #same
 # ratio_movie_cast_likes maybe
 
 
-library(ggplot2)
-# ggplot2.scatterplot(data=data_final, xName='budget',yName='imdb_score',
-#                     groupName='genres', size=3,backgroundColor="white", 
-#                     setColorByGroupName=TRUE,xlim=c(0,100000000),addRegLine = TRUE)
+library(easyGgplot2)
+ggplot2.scatterplot(data=data_final, xName='critic_reviews_number',yName='imdb_score',
+                    groupName='action', size=3,backgroundColor="white",
+                    setColorByGroupName=TRUE,xlim=c(0,1000),addRegLine = TRUE)
 
 
 install.packages("devtools")
 library(devtools)
-install_github("kassambara/easyGgplot2")
+install_github("kassambara/easyGgplot2",force = TRUE)
+
+plot(actor_1_facebook_likes,actor_1_star_meter,ylim = c(0,10000),xlim = c(0,10000))
